@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Summon : MonoBehaviour
 {
+    public AudioClip sound1;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
         myPosition = this.transform.position;
+        audioSource = GetComponent<AudioSource>();
     }
 
     [SerializeField]
@@ -26,9 +29,14 @@ public class Summon : MonoBehaviour
 
         if (currentTime > span)
         {
-            Debug.LogFormat("{0}秒経過", span);
-            Instantiate(summon, new Vector3(myPosition.x, 0.01f, myPosition.z), Quaternion.identity);
-            currentTime = 0f;
+            GameObject obj = GameObject.Find("UIController");
+            if (obj.GetComponent<UIEventController>().start)
+            {
+                Debug.LogFormat("{0}秒経過", span);
+                Instantiate(summon, new Vector3(myPosition.x, 0.01f, myPosition.z), Quaternion.identity);
+                audioSource.PlayOneShot(sound1);
+                currentTime = 0f;
+            }
         }
 
     }

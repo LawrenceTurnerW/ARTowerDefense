@@ -17,9 +17,19 @@ public class GunController : MonoBehaviour
     [SerializeField]
     private Transform m_muzzlePos = null;
 
+    public AudioClip sound1;
+    AudioSource audioSource;
+
     /// <summary>
     /// VRコントローラーのトリガーが握られた時に呼び出す。
     /// </summary>
+    /// 
+    void Start()
+    {
+        //Componentを取得
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public void Activate()
     {
         ShootAmmo();
@@ -39,6 +49,9 @@ public class GunController : MonoBehaviour
 
         //弾を生成する。
         GameObject bulletObj = Instantiate(m_bulletPrefab);
+
+        // 音を鳴らす
+        audioSource.PlayOneShot(sound1);
 
         //弾の位置を、銃口の位置と同一にする。
         bulletObj.transform.position = m_muzzlePos.position;
